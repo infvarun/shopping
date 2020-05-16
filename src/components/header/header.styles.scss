@@ -5,11 +5,16 @@
     justify-content: space-between;
     margin-bottom: 25px;
     background-color: whitesmoke;
+    border: 1px solid;
+    border-color: whitesmoke;
+    box-shadow: 1px 5px 10px wheat;
   
     .logo-container {
       height: 100%;
       width: 70px;
-      padding: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
     }
   
     .options {
@@ -21,6 +26,9 @@
   
       .option {
         padding: 10px 15px;
+        color: black;
+        cursor: pointer;
+        font-weight: bolder;
       }
     }
   }
