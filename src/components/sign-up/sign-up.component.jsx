@@ -21,7 +21,6 @@ class SignUp extends Component {
 
     // Custom handler Handle Submit method for signup form button
     handleSubmit = async (event) => {
-        console.log(event);
         //prevent default event of submit button
         event.preventDefault();
         // destructure state

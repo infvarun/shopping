@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 
-import { signInWithGoogle } from "../../firebase/firebase.util";
+import { auth, signInWithGoogle } from "../../firebase/firebase.util";
 
 import './sign-in.styles.scss';
 
@@ -18,10 +18,21 @@ class SignIn extends Component {
     }
 
     //custom method to handle form submit
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
-        // clear out fields on submit
-        this.setState({ email: '', password: '' });
+
+        const { email, password }= this.state;
+
+        try {
+            await auth.signInWithEmailAndPassword(email, password);
+            // clear out fields on submit
+            this.setState({ email: '', password: '' });
+
+        } catch (error) {
+            console.error(error);
+        }
+
+        
     }
 
     // custom method to handle change in input fields
@@ -60,7 +71,7 @@ class SignIn extends Component {
                     />
 
                     <div className="buttons">
-                        <CustomButton type="submit">
+                        <CustomButton type="submit" onSubmit={ this.handleSubmit }>
                             Sign In
                         </CustomButton>
 
