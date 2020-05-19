@@ -12,6 +12,7 @@ const Header = ({ currentUser }) => (
         <Link className="logo-container" to="/">
             <Logo className="logo" />
         </Link>
+
         <div className="options">
             <Link className="option" to="/shop">SHOP</Link>
             <Link className="option" to="/contact">CONTACT</Link>
@@ -19,7 +20,7 @@ const Header = ({ currentUser }) => (
             {
                 // render conditional signin - signout
                  currentUser 
-                 ? <Link className="option" to="" onClick={ () => { auth.signOut()} }> {(currentUser.displayName).toUpperCase()} ❌</Link>
+                 ? <Link className="option" to="" onClick={ () => { auth.signOut()} }> SIGN OUT </Link>
                  : <Link className="option" to="/signin">SIGN IN</Link>
             }
         </div>

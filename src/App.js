@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from "react-router-dom";
-import { auth } from "./firebase/firebase.util"; 
+import { auth, createUserProfileDocument } from "./firebase/firebase.util"; 
 
 // Import all pages required
 import HomePage  from "./pages/homepage/homepage.component";
@@ -26,10 +26,23 @@ class App extends Component {
   // subscribe to firbase user session on component
   componentDidMount() {
     // get unsubscribtion method returned from onAuthStateChanged method
-    this.unsubscribeFromAuth = auth.onAuthStateChanged( (user) => {
-      this.setState( { currentUser: user } );
-      console.log(user);
-    } )
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async  (userAuth) => {
+      //this.setState( { currentUser: user } );
+      if(userAuth){
+        const userRef = await createUserProfileDocument(userAuth);  
+
+      // userRef will get latest snapshot of our document, lets get the same
+      userRef.onSnapshot( (snapshot) => {
+        this.setState({ 
+          currentUser: {
+            id: snapshot.id,
+            ...snapshot.data()
+          }
+         }, ()=>console.log(this.state));
+      } );
+    }
+    this.setState({ currentUser: userAuth });
+    } );    
   }
 
   //unsubscribe before component gets unmounted
@@ -41,7 +54,7 @@ class App extends Component {
   render() {
     return (
       <div>
-      <Header currentUser={ this.state.currentUser } />
+      <Header currentUser={ this.state.currentUser }/>
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route  path='/shop' component={ShopPage} />
